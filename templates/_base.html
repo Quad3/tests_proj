@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="{% static 'css/bootstrap-min.css' %}">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Tests{% endblock %}</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid container-xl">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled">Disabled</a>
+          </li>
+        </ul>
+        <div class="navbar-nav">
+          {% if user.is_authenticated %}
+            <span class="nav-link active">{{ user.username }}</span>
+            <a class="nav-link" href="{% url 'account_logout'%}">Log Out</a>
+          {% else %}
+            <a class="nav-link" href="{% url 'account_login'%}">Log In</a>
+            <a class="nav-link" href="{% url 'account_signup'%}">Sign Up</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="container-xl" style="margin-top: 20px;">
+    {% block content %}
+    {% endblock %}
+  </div>
+</body>
+
+</html>
