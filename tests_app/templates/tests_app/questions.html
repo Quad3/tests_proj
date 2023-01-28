@@ -1,0 +1,26 @@
+{% extends "_base.html" %}
+
+{% block content %}
+  {% if question_list %}
+    <h2>Questions: <a href="{% url 'question_add' %}">
+  {% else %}
+    <h2>There are no questions.
+  {% endif %}
+  <button class="btn btn-light">Add</button></a></h2>
+
+  {% for question in question_list %}
+    <div class="card card-body">
+      <p class="card-text">{{ question.theme }}</p>
+      <h3><a class="card-link" data-bs-toggle="collapse" href="#answer{{ question.id }}" role="button" aria-expanded="false" aria-controls="answer{{ question.id }}">
+        {{ question.question }}
+      </a></h3>
+    </div>
+    <div class="collapse" id="answer{{ question.id }}">
+      <div class="card card-body">
+        {% autoescape on %}
+          <pre style="white-space: pre-wrap;">{{ question.answer|linebreaks }}</pre>
+        {% endautoescape %}
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}

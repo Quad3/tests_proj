@@ -16,10 +16,16 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+            <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="{% url 'home' %}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
+            <a class="nav-link {% if request.path == '/question/random/' %}active{% endif %}" aria-current="page" href="{% url 'question_random' %}">Random Question</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/themes/' %}active{% endif %}" aria-current="page" href="{% url 'themes' %}">Themes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/test/' %}active{% endif %}" aria-current="page" href="{% url 'test_list' %}">Tests</a>
           </li>
         </ul>
         <div class="navbar-nav">
@@ -38,6 +44,7 @@
     {% block content %}
     {% endblock %}
   </div>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
 
 </html>

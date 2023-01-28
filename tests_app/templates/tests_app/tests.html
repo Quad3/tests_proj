@@ -1,0 +1,30 @@
+{% extends "_base.html" %}
+
+{% block content %}
+  Create:
+  <a class="btn btn-success" type="submit" href="{% url 'test_create_random' %}">random test</a>
+  <a class="btn btn-success" type="submit" href="{% url 'test_create' %}">custom test</a>
+  {% for test in test_list %}
+    <div class="card card-body mt-3">
+      <p class="card-text">
+        {{ test.created_at }}
+        <a href="{{ test.get_absolute_url }}">
+          Перейти к тесту
+        </a>
+      </p>
+      <h3><a class="card-link" data-bs-toggle="collapse" href="#test{{ test.id }}" role="button" aria-expanded="false" aria-controls="answer{{ test.id }}">
+        Список вопросов:
+      </a></h3>
+      <div class="collapse" id="test{{ test.id }}">
+        <div class="card card-body">
+          {% for q in test.questions.all|dictsort:"id" %}
+            <h3>
+              {{ q.id }} | {{ q }} | {{ q.theme }}
+            </h3>
+          {% endfor %}
+        </div>
+      </div>
+      
+    </div>
+  {% endfor %}
+{% endblock %}

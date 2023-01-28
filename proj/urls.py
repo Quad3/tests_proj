@@ -25,4 +25,7 @@ urlpatterns = [
 
     # Local apps
     path('', include('tests_app.urls')),
+
+    # debug
+    path('__debug__/', include('debug_toolbar.urls')),
 ]

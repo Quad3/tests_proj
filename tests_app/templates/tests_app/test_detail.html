@@ -1,0 +1,31 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+  <div class="card card-body">
+    <p class="card-text">
+      {% if not last_q %}
+      <a class="card-link" href="{% url 'test_detail' pk=pk %}?q={{ next }}">
+        Next
+      </a>
+      {% else %}
+      <a class="card-link" href="{% url 'test_list' %}">
+        Go to tests
+      </a>
+      {% endif %}
+      {{ question.theme }}
+    </p>
+
+    <h3><a class="card-link" data-bs-toggle="collapse" href="#answer{{ question.id }}" role="button" aria-expanded="false" aria-controls="answer{{ question.id }}">
+      {{ question.question }}
+    </a></h3>
+    
+  </div>
+  <div class="collapse" id="answer{{ question.id }}">
+    <div class="card card-body">
+      {% autoescape on %}
+        <pre style="white-space: pre-wrap;">{{ question.answer|linebreaks }}</pre>
+      {% endautoescape %}
+    </div>
+  </div>
+{% endblock %}
