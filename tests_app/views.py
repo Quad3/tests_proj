@@ -1,9 +1,9 @@
-from django.views.generic import ListView, DetailView, RedirectView
+from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView
 from django.urls.base import reverse_lazy
-from typing import Any, Optional
+from typing import Any
 from django.shortcuts import get_object_or_404
-from django.http import HttpRequest, HttpResponse, Http404
+from django.http import HttpRequest, HttpResponse, Http404, HttpResponseRedirect
 from django.db import models
 
 from .models import Question, Theme, TestEntry
@@ -76,13 +76,6 @@ class TestDetailView(DetailView):
     template_name = 'tests_app/test_detail.html'
     context_object_name = 'question'
     
-    # def get_object(self, queryset: Optional[models.query.QuerySet[Any]] = ...) -> models.Model:
-    #     return super().get_object(queryset)
-
-    # def get_queryset(self, id: int) -> models.QuerySet[Any]:
-    #     self.model.objects.filter(id=id).prefetch_related('questions')
-    #     return super().get_queryset()
-
     def get_object(self) -> models.Model:
         pk = self.kwargs.get(self.pk_url_kwarg)
         # questions = self.model.objects.filter(id=pk).prefetch_related(
@@ -118,15 +111,15 @@ class TestDetailView(DetailView):
         data['last_q'] = True if self.q == self.q_len else False
         return data
 
-class TestCreateRandomView(RedirectView):
-    url = reverse_lazy('test_list')
-    question_quantity = 10
 
-    def get_redirect_url(self, *args: Any, **kwargs: Any) -> Optional[str]:
+class TestCreateRandomView(View):
+    question_quantity = 5
+    
+    def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         test = TestEntry.objects.create()
         questions = retrieve_random_questions(self.question_quantity)
         for q in questions:
             test.questions.add(q)
         test.save()
 
-        return super().get_redirect_url(*args, **kwargs)
+        return HttpResponseRedirect(reverse_lazy('test_list'))

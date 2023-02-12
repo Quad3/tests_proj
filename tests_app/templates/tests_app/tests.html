@@ -2,7 +2,10 @@
 
 {% block content %}
   Create:
-  <a class="btn btn-success" type="submit" href="{% url 'test_create_random' %}">random test</a>
+  <form action="{% url 'test_create_random' %}" method="post">
+    {% csrf_token %}
+    <button class="btn btn-success" type="submit" href="{% url 'test_create_random' %}">random test</button>
+  </form>
   <a class="btn btn-success" type="submit" href="{% url 'test_create' %}">custom test</a>
   {% for test in test_list %}
     <div class="card card-body mt-3">
